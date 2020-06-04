@@ -64,4 +64,16 @@ func runPrompt()  {
 	} else{
 		fmt.Println("Informed:", pass)
 	}
+
+	ps := promptui.Select{
+		Label: "You sure?",
+		Items: []string{"Yes", "No"},
+		Stdin: stdin,
+	}
+	_, sure, err := ps.Run()
+	if err != nil {
+		log.Fatalf("You sure? prompt failed %v\n", err)
+	} else{
+		fmt.Println("Informed:", sure)
+	}
 }

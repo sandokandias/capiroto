@@ -19,19 +19,14 @@ func main() {
 
 	username := "ritchie\r\n"
 	buf.WriteString(username)
-	pu := make([]byte, 4096 - len(username))
-	for i := 0; i < 4096 - len(username); i++ {
-		pu[i] = 97
-	}
-	buf.Write(pu)
+	pad(len(username), &buf)
 
 	password := "secret\r\n"
 	buf.WriteString(password)
-	pp := make([]byte, 4096 - len(password))
-	for i := 0; i < 4096 - len(password); i++ {
-		pp[i] = 97
-	}
-	buf.Write(pp)
+	pad(len(password), &buf)
+
+	buf.Write([]byte{14, 13, 10})
+	pad(3, &buf)
 
 	cmd.Stdin = &buf
 	cmd.Stdout = os.Stdout
@@ -39,4 +34,12 @@ func main() {
 
 	cmd.Run()
 
+}
+
+func pad(siz int, buf *bytes.Buffer) {
+	pu := make([]byte, 4096-siz)
+	for i := 0; i < 4096-siz; i++ {
+		pu[i] = 97
+	}
+	buf.Write(pu)
 }
