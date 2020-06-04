@@ -17,15 +17,18 @@ func main() {
 
 	buf := bytes.Buffer{}
 
+	// first input text
 	username := "ritchie\r\n"
 	buf.WriteString(username)
 	pad(len(username), &buf)
 
+	// second input text
 	password := "secret\r\n"
 	buf.WriteString(password)
 	pad(len(password), &buf)
 
-	buf.Write([]byte{14, 13, 10})
+	// select example: 106 for No, 107 for Yes
+	buf.Write([]byte{106, 13, 10})
 	pad(3, &buf)
 
 	cmd.Stdin = &buf
