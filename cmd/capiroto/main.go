@@ -2,18 +2,21 @@ package main
 
 import (
 	"bytes"
+	"fmt"
+	"log"
 	"os"
 	"os/exec"
 )
 
-const(
-	login = "C:\\Users\\sando\\go\\src\\github.com\\sandokandias\\capiroto\\cmd\\login\\main.go"
-	promptui = 	"--promptui"
-)
-
 func main() {
+	cdir, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+	login := fmt.Sprintf("%s/cmd/login/main.go", cdir)
+
 	//cmd := exec.Command("go", "run", login)
-	cmd := exec.Command("go", "run", login, promptui)
+	cmd := exec.Command("go", "run", login, "--promptui")
 
 	buf := bytes.Buffer{}
 
