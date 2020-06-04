@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"os"
 	"os/exec"
 )
@@ -17,20 +16,27 @@ func main() {
 	cmd := exec.Command("go", "run", login, promptui)
 
 	buf := bytes.Buffer{}
-	buf.Write([]byte("ritchie\n"))
-	buf.Write([]byte("secret\n"))
-	/*for i := 15; i < 4096; i++ {
-		buf.WriteByte('a')
-	}*/
 
-	fmt.Println("Buffer len:", buf.Len())
+	username := "ritchie\r\n"
+	buf.WriteString(username)
+	pu := make([]byte, 4096 - len(username))
+	for i := 0; i < 4096 - len(username); i++ {
+		pu[i] = 97
+	}
+	buf.Write(pu)
+
+	password := "secret\r\n"
+	buf.WriteString(password)
+	pp := make([]byte, 4096 - len(password))
+	for i := 0; i < 4096 - len(password); i++ {
+		pp[i] = 97
+	}
+	buf.Write(pp)
 
 	cmd.Stdin = &buf
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
-	err := cmd.Run()
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-	}
+	cmd.Run()
+
 }

@@ -18,7 +18,6 @@ func init() {
 
 func main() {
 	flag.Parse()
-	fmt.Println("promptui:", prompt)
 
 	if prompt {
 		runPrompt()
@@ -41,8 +40,12 @@ func runDefault() {
 }
 
 func runPrompt()  {
+
+	stdin := os.Stdin
+
 	pu := promptui.Prompt{
 		Label: "Username",
+		Stdin: stdin,
 	}
 	username, err := pu.Run()
 	if err != nil {
@@ -53,7 +56,7 @@ func runPrompt()  {
 
 	pp := promptui.Prompt{
 		Label: "Password",
-		Mask:  '*',
+		Stdin: stdin,
 	}
 	pass, err := pp.Run()
 	if err != nil {
